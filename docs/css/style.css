@@ -55,4 +55,6 @@ notice {
     margin-top: 50px;
     width:100%;
     text-align: center;
+    background-color: grey;
+    border-radius: 30%;
 }
