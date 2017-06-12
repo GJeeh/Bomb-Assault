@@ -1,0 +1,58 @@
+html, body{
+    background-color: white;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+body * {
+    position: absolute;
+    display: block;
+    margin:0px; padding:0px;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+}
+player{
+    background-color: green;
+    width: 4vh;
+    height: 4vh;
+}
+bomb{
+    width: 50px;
+    height: 50px;
+    background-image: url("../images/bomb.png");
+    background-size: contain;
+    border-radius: 50%;
+}
+lives {
+    font-size:42px;
+    text-shadow: 2px 2px 0px black;
+    color:red;
+    padding:20px;
+    width:100%;
+    text-align: left;
+}
+clicks {
+    font-size:42px;
+    text-shadow: 2px 2px 0px black;
+    color:red;
+    padding:20px;
+    width:100%;
+    text-align: center;
+}
+score {
+    font-size:42px;
+    text-shadow: 2px 2px 0px black;
+    color:green;
+    padding:20px;
+    width:100%;
+    text-align: right;
+}
+notice {
+    font-size:60px;
+    text-shadow: 2px 2px 0px black;
+    color:red;
+    padding:20px;
+    margin-top: 50px;
+    width:100%;
+    text-align: center;
+}
