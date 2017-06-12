@@ -9,6 +9,7 @@ class Game{
     private rand2:number;
     private collisions:Collisions;
     private score:Score;
+    private startUI: Element;
     public get display(): Score {
 		return this.score;
 	}
@@ -16,12 +17,19 @@ class Game{
 		this.score = value;
 	}
     constructor(){
+        this.startUI = document.getElementsByTagName("notice")[0]; 
         this.collisions = new Collisions();
         this.score = new Score();
         this.player = new Player((innerWidth/2), (innerHeight/2));
         this.bombs = new Array<Bomb>();
-        setTimeout(() => this.bombGeneration(), 1000);
+        if(this.startUI.innerHTML = "Play"){
+            this.startUI.addEventListener("click", (e:MouseEvent) => this.onClick(e));
+        }
+    }
+    private onClick(e:MouseEvent):void{
+        this.startUI.remove();
         requestAnimationFrame(() => this.gameloop());
+        setTimeout(() => this.bombGeneration(), 1000);
     }
     private gameloop(){
         this.destroy();
@@ -78,7 +86,6 @@ class Game{
                     this.bombs.push(new SmallBomb(Math.random()*innerWidth,innerHeight,this));
                 }
             }
-        
             setTimeout(() => this.bombGeneration(), 2500);
         }
     }

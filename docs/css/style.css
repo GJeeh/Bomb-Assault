@@ -25,7 +25,7 @@ bomb{
 }
 lives {
     font-size:42px;
-    text-shadow: 2px 2px 0px black;
+    text-shadow: 1px 1px 0px black;
     color:red;
     padding:20px;
     width:100%;
@@ -33,7 +33,7 @@ lives {
 }
 clicks {
     font-size:42px;
-    text-shadow: 2px 2px 0px black;
+    text-shadow: 1px 1px 0px black;
     color:red;
     padding:20px;
     width:100%;
@@ -41,7 +41,7 @@ clicks {
 }
 score {
     font-size:42px;
-    text-shadow: 2px 2px 0px black;
+    text-shadow: 1px 1px 0px black;
     color:green;
     padding:20px;
     width:100%;
@@ -49,12 +49,32 @@ score {
 }
 notice {
     font-size:60px;
-    text-shadow: 2px 2px 0px black;
+    text-shadow: 1px 1px 0px black;
     color:red;
-    padding:20px;
-    margin-top: 50px;
+    padding: 10px;
+    margin-top: 80px;
+    margin-left: 45%;
     width:100%;
     text-align: center;
-    background-color: grey;
-    border-radius: 30%;
+    border: 5px solid grey;
+    border-radius: 20px;
+    width: 150px;
+}
+numbers{
+    font-size:30px;
+    text-shadow: 1px 1px 0px black;
+    color:white;
+    padding:20px;
+    width:100%;
+    text-align: center;
+    z-index: 100;
+}
+desc{
+    font-size:42px;
+    text-shadow: 1px 1px 0px black;
+    color:black;
+    padding:20px;
+    width:100%;
+   bottom: 10px; 
+    text-align: center; 
 }

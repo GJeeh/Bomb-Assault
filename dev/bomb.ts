@@ -1,6 +1,6 @@
 
 class Bomb {
-    private _div: HTMLElement;
+    public _div: HTMLElement;
     public x:number;
     public y:number;
     public width:number;
@@ -12,6 +12,8 @@ class Bomb {
     private color:string;
     private score:Score;
     private game:Game
+
+    private numbers:Numbers;
 
     private rotation:number;
     public get display(): Score {
@@ -36,7 +38,12 @@ class Bomb {
         this.HP = HP;
         this._div.addEventListener("click", (e:MouseEvent) => this.onClick(e));
         this._div.style.backgroundColor = color;
-}
+}   
+    public addNumbers(){
+        if(!this.numbers){
+            this.numbers = new Numbers(this,this.game,this.HP);
+        }
+    }
     public removeMe(){
         this._div.remove();
     }
@@ -72,6 +79,12 @@ class Bomb {
                     this.game.display.updateScore(-6,6,0);
                 }
             }
+            if(!this.numbers){
+                this.numbers = new Numbers(this,this.game,this.HP);
+            }
+            else{
+                this.numbers.updateNumbers(this.HP);
+            }
         }
         else{
 
@@ -88,6 +101,7 @@ class BigBomb extends Bomb{
 class StandardBomb extends Bomb{
     constructor(x:number, y:number, g:Game){
         super(x,y,2, "", g);
+        super.addNumbers();
     }
 }
 class SmallBomb extends Bomb{

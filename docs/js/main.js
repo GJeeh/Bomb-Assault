@@ -37,6 +37,11 @@ var Bomb = (function () {
         enumerable: true,
         configurable: true
     });
+    Bomb.prototype.addNumbers = function () {
+        if (!this.numbers) {
+            this.numbers = new Numbers(this, this.game, this.HP);
+        }
+    };
     Bomb.prototype.removeMe = function () {
         this._div.remove();
     };
@@ -72,6 +77,12 @@ var Bomb = (function () {
                     this.game.display.updateScore(-6, 6, 0);
                 }
             }
+            if (!this.numbers) {
+                this.numbers = new Numbers(this, this.game, this.HP);
+            }
+            else {
+                this.numbers.updateNumbers(this.HP);
+            }
         }
         else {
         }
@@ -88,7 +99,9 @@ var BigBomb = (function (_super) {
 var StandardBomb = (function (_super) {
     __extends(StandardBomb, _super);
     function StandardBomb(x, y, g) {
-        return _super.call(this, x, y, 2, "", g) || this;
+        var _this = _super.call(this, x, y, 2, "", g) || this;
+        _super.prototype.addNumbers.call(_this);
+        return _this;
     }
     return StandardBomb;
 }(Bomb));
@@ -121,12 +134,14 @@ var Player = (function () {
 var Game = (function () {
     function Game() {
         var _this = this;
+        this.startUI = document.getElementsByTagName("notice")[0];
         this.collisions = new Collisions();
         this.score = new Score();
         this.player = new Player((innerWidth / 2), (innerHeight / 2));
         this.bombs = new Array();
-        setTimeout(function () { return _this.bombGeneration(); }, 1000);
-        requestAnimationFrame(function () { return _this.gameloop(); });
+        if (this.startUI.innerHTML = "Play") {
+            this.startUI.addEventListener("click", function (e) { return _this.onClick(e); });
+        }
     }
     Object.defineProperty(Game.prototype, "display", {
         get: function () {
@@ -138,6 +153,12 @@ var Game = (function () {
         enumerable: true,
         configurable: true
     });
+    Game.prototype.onClick = function (e) {
+        var _this = this;
+        this.startUI.remove();
+        requestAnimationFrame(function () { return _this.gameloop(); });
+        setTimeout(function () { return _this.bombGeneration(); }, 1000);
+    };
     Game.prototype.gameloop = function () {
         var _this = this;
         this.destroy();
@@ -217,16 +238,37 @@ var Game = (function () {
 window.addEventListener("load", function () {
     new Game();
 });
+var Numbers = (function () {
+    function Numbers(bomb, game, HP) {
+        this.HP = HP;
+        this.div = document.createElement("numbers");
+        bomb._div.appendChild(this.div);
+        this.g = game;
+        this.div.innerHTML = this.HP + "";
+    }
+    Numbers.prototype.updateNumbers = function (HP) {
+        this.div.innerHTML = HP + "";
+    };
+    return Numbers;
+}());
 var Score = (function () {
     function Score() {
+        var _this = this;
         this.clicksdiv = document.getElementsByTagName("clicks")[0];
         this.scorediv = document.getElementsByTagName("score")[0];
         this.livesdiv = document.getElementsByTagName("lives")[0];
-        this.noticediv = document.getElementsByTagName("notice")[0];
+        this.noticediv = document.createElement("notice");
+        this.replaydiv = document.createElement("notice");
         this.clicks = 3;
         this.lives = 5;
         this.score = 0;
+        this.replaydiv.addEventListener("click", function (e) { return _this.onClick(e); });
+        this.replaydiv.style.marginTop = "200px";
+        this.replaydiv.style.width = "200px";
     }
+    Score.prototype.onClick = function (e) {
+        window.location.reload();
+    };
     Score.prototype.updateScore = function (lv, cl, sc) {
         this.lives -= lv;
         this.clicks += cl;
@@ -241,10 +283,18 @@ var Score = (function () {
     };
     Score.prototype.checkGameStatus = function () {
         if (this.score >= 40) {
+            document.body.appendChild(this.noticediv);
+            document.body.appendChild(this.replaydiv);
+            this.noticediv.style.width = "300px";
             this.noticediv.innerHTML = "You Win!";
+            this.replaydiv.innerHTML = "Replay";
         }
         else if (this.lives <= 0) {
+            document.body.appendChild(this.replaydiv);
+            document.body.appendChild(this.noticediv);
+            this.noticediv.style.width = "400px";
             this.noticediv.innerHTML = "GAME OVER";
+            this.replaydiv.innerHTML = "Replay";
         }
     };
     return Score;
