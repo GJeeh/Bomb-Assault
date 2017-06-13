@@ -90,11 +90,21 @@ class Game{
         }
     }
     public destroy():void{
+        var biemsound  = <HTMLAudioElement>document.getElementById("biem");
+        var defuse  = <HTMLAudioElement>document.getElementById("defuse");
         for(var i = 0; i < this.bombs.length; i++){
             if(this.bombs[i] !== undefined){
                 if(this.collisions.collision(this.player,this.bombs[i]) || this.bombs[i].HP == 0){
                     if(this.bombs[i].HP !== 0 && this.score.score < 40 && this.score.lives > 0){
                         this.score.updateScore(1,1,0);
+                        biemsound.pause();
+                        biemsound.currentTime = 0.7;
+                        biemsound.play();
+                    }
+                    else{
+                        defuse.pause();
+                        defuse.currentTime = 0.7;
+                        defuse.play();
                     }
                     this.bombs[i].removeMe();
                     this.bombs[i] = undefined;

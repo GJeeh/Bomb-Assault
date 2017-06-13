@@ -2,9 +2,6 @@ class Player{
     private div: HTMLElement;
     public x:number;
     public y:number;
-    public width:number;
-    public height:number;
-
 
     constructor(x:number, y:number){
         this.div = document.createElement("player");

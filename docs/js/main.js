@@ -221,11 +221,21 @@ var Game = (function () {
         }
     };
     Game.prototype.destroy = function () {
+        var biemsound = document.getElementById("biem");
+        var defuse = document.getElementById("defuse");
         for (var i = 0; i < this.bombs.length; i++) {
             if (this.bombs[i] !== undefined) {
                 if (this.collisions.collision(this.player, this.bombs[i]) || this.bombs[i].HP == 0) {
                     if (this.bombs[i].HP !== 0 && this.score.score < 40 && this.score.lives > 0) {
                         this.score.updateScore(1, 1, 0);
+                        biemsound.pause();
+                        biemsound.currentTime = 0.7;
+                        biemsound.play();
+                    }
+                    else {
+                        defuse.pause();
+                        defuse.currentTime = 0.7;
+                        defuse.play();
                     }
                     this.bombs[i].removeMe();
                     this.bombs[i] = undefined;
@@ -288,6 +298,7 @@ var Score = (function () {
             this.noticediv.style.width = "300px";
             this.noticediv.innerHTML = "You Win!";
             this.replaydiv.innerHTML = "Restart";
+            this.Endscreen();
         }
         else if (this.lives <= 0) {
             document.body.appendChild(this.replaydiv);
@@ -295,7 +306,14 @@ var Score = (function () {
             this.noticediv.style.width = "400px";
             this.noticediv.innerHTML = "GAME OVER";
             this.replaydiv.innerHTML = "Restart";
+            this.Endscreen();
         }
+    };
+    Score.prototype.Endscreen = function () {
+        TweenLite.set(this.noticediv, { x: 0, y: -230 });
+        TweenLite.to(this.noticediv, 5, { y: 10, ease: Elastic.easeOut });
+        TweenLite.set(this.replaydiv, { x: 0, y: -230 });
+        TweenLite.to(this.replaydiv, 5, { y: 20, ease: Elastic.easeOut });
     };
     return Score;
 }());
