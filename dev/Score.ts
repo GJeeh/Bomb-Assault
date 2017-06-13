@@ -42,14 +42,14 @@ class Score{
             document.body.appendChild(this.replaydiv);
             this.noticediv.style.width = "300px";
             this.noticediv.innerHTML = "You Win!";
-            this.replaydiv.innerHTML = "Replay"
+            this.replaydiv.innerHTML = "Restart"
         }
         else if(this.lives <= 0){
             document.body.appendChild(this.replaydiv);
             document.body.appendChild(this.noticediv);
             this.noticediv.style.width = "400px"; 
             this.noticediv.innerHTML = "GAME OVER"
-            this.replaydiv.innerHTML = "Replay"
+            this.replaydiv.innerHTML = "Restart"
         }
     }
 }
