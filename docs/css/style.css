@@ -78,3 +78,7 @@ desc{
    bottom: 10px; 
     text-align: center; 
 }
+html
+{
+cursor: crosshair;
+}
