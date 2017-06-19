@@ -51,7 +51,7 @@ class Bomb {
     }
     public removeMe(){
         this._div.removeEventListener("click", this.mouseE);
-        this._div.style.backgroundImage = "url(../docs/images/explode2.gif)";
+        this._div.style.backgroundImage = "url(images/explode2.gif)";
         this._div.style.backgroundColor = "";
         if(this.numbers){
             this.numbers.thisDiv.remove();
