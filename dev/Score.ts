@@ -60,7 +60,7 @@ class Score{
                 this.noticediv.style.width = "400px"; 
                 this.noticediv.innerHTML = "GAME OVER"
                 this.replaydiv.innerHTML = "Restart"
-                this.mainPlayer.style.backgroundImage = "url(images/dead.png)";
+                this.mainPlayer.style.backgroundImage = "url(Bomb-Assault/images/dead.png)";
                 this.ended = true;
                 this.Endscreen();
             }
