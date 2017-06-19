@@ -11,6 +11,7 @@ var __extends = (this && this.__extends) || (function () {
 var Bomb = (function () {
     function Bomb(x, y, HP, color, g) {
         var _this = this;
+        this.dead = false;
         this._div = document.createElement("bomb");
         this.game = g;
         document.body.appendChild(this._div);
@@ -24,7 +25,8 @@ var Bomb = (function () {
         this.xSpeed = (innerWidth / 2 - this.x);
         this.rotation = 0;
         this.HP = HP;
-        this._div.addEventListener("click", function (e) { return _this.onClick(e); });
+        this.mouseE = function (e) { return _this.onClick(e); };
+        this._div.addEventListener("click", this.mouseE);
         this._div.style.backgroundColor = color;
     }
     Object.defineProperty(Bomb.prototype, "publics", {
@@ -48,8 +50,16 @@ var Bomb = (function () {
     };
     Bomb.prototype.removeMe = function () {
         var _this = this;
+        this._div.removeEventListener("click", this.mouseE);
+        this._div.style.backgroundImage = "url(../docs/images/explode2.gif)";
+        this._div.style.backgroundColor = "";
+        if (this.numbers) {
+            this.numbers.thisDiv.remove();
+        }
+        setTimeout(function () { return _this.removal(); }, 500);
+    };
+    Bomb.prototype.removal = function () {
         this._div.remove();
-        this._div.removeEventListener("click", function (e) { return _this.onClick(e); });
     };
     Bomb.prototype.move = function () {
         this.x += this.speed * this.xSpeed;
@@ -129,6 +139,7 @@ var Collisions = (function () {
 var Score = (function () {
     function Score() {
         var _this = this;
+        this.ended = false;
         this.clicksdiv = document.getElementsByTagName("clicks")[0];
         this.scorediv = document.getElementsByTagName("score")[0];
         this.livesdiv = document.getElementsByTagName("lives")[0];
@@ -159,22 +170,26 @@ var Score = (function () {
         this.clicksdiv.innerHTML = "Clicks left: " + this.clicks;
     };
     Score.prototype.checkGameStatus = function () {
-        if (this.score >= 40) {
-            document.body.appendChild(this.noticediv);
-            document.body.appendChild(this.replaydiv);
-            this.noticediv.style.width = "300px";
-            this.noticediv.innerHTML = "You Win!";
-            this.replaydiv.innerHTML = "Restart";
-            this.Endscreen();
-        }
-        else if (this.lives <= 0) {
-            document.body.appendChild(this.replaydiv);
-            document.body.appendChild(this.noticediv);
-            this.noticediv.style.width = "400px";
-            this.noticediv.innerHTML = "GAME OVER";
-            this.replaydiv.innerHTML = "Restart";
-            this.mainPlayer.style.backgroundImage = "url(../docs/images/dead.png)";
-            this.Endscreen();
+        if (this.ended == false) {
+            if (this.score >= 40) {
+                document.body.appendChild(this.noticediv);
+                document.body.appendChild(this.replaydiv);
+                this.noticediv.style.width = "300px";
+                this.noticediv.innerHTML = "You Win!";
+                this.replaydiv.innerHTML = "Restart";
+                this.ended = true;
+                this.Endscreen();
+            }
+            else if (this.lives <= 0) {
+                document.body.appendChild(this.replaydiv);
+                document.body.appendChild(this.noticediv);
+                this.noticediv.style.width = "400px";
+                this.noticediv.innerHTML = "GAME OVER";
+                this.replaydiv.innerHTML = "Restart";
+                this.mainPlayer.style.backgroundImage = "url(../docs/images/dead.png)";
+                this.ended = true;
+                this.Endscreen();
+            }
         }
     };
     Score.prototype.Endscreen = function () {
@@ -297,10 +312,11 @@ var Game = (function () {
         }
     };
     Game.prototype.destroy = function () {
+        var _this = this;
         var biemsound = document.getElementById("biem");
         var defuse = document.getElementById("defuse");
         for (var i = 0; i < this.bombs.length; i++) {
-            if (this.bombs[i] !== undefined) {
+            if (this.bombs[i] !== undefined && this.bombs[i].dead == false) {
                 if (this.collisions.collision(this.player, this.bombs[i]) || this.bombs[i].HP == 0) {
                     if (this.bombs[i].HP !== 0 && this.score.score < 40 && this.score.lives > 0) {
                         this.score.updateScore(1, 1, 0);
@@ -313,11 +329,15 @@ var Game = (function () {
                         defuse.currentTime = 0.7;
                         defuse.play();
                     }
+                    this.bombs[i].dead = true;
                     this.bombs[i].removeMe();
-                    this.bombs[i] = undefined;
+                    setTimeout(function () { return _this.undefine(_this.bombs[i]); }, 500);
                 }
             }
         }
+    };
+    Game.prototype.undefine = function (bomb) {
+        bomb = undefined;
     };
     return Game;
 }());
@@ -332,6 +352,16 @@ var Numbers = (function () {
         this.g = game;
         this.div.innerHTML = this.HP + "";
     }
+    Object.defineProperty(Numbers.prototype, "thisDiv", {
+        get: function () {
+            return this.div;
+        },
+        set: function (value) {
+            this.div = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Numbers.prototype.updateNumbers = function (HP) {
         this.div.innerHTML = HP + "";
     };

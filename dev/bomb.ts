@@ -1,5 +1,6 @@
 
 class Bomb {
+    public dead:boolean = false;
     public _div: HTMLElement;
     public x:number;
     public y:number;
@@ -13,7 +14,7 @@ class Bomb {
     private color:string;
     private score:Score;
     private game:Game
-
+    private mouseE:EventListener;
     private numbers:Numbers;
 
     private rotation:number;
@@ -39,7 +40,8 @@ class Bomb {
         this.xSpeed = (innerWidth/2 - this.x);
         this.rotation = 0;
         this.HP = HP;
-        this._div.addEventListener("click", (e:MouseEvent) => this.onClick(e));
+        this.mouseE = (e:MouseEvent) => this.onClick(e);
+        this._div.addEventListener("click", this.mouseE);
         this._div.style.backgroundColor = color;
 }   
     public addNumbers(){
@@ -48,8 +50,16 @@ class Bomb {
         }
     }
     public removeMe(){
+        this._div.removeEventListener("click", this.mouseE);
+        this._div.style.backgroundImage = "url(../docs/images/explode2.gif)";
+        this._div.style.backgroundColor = "";
+        if(this.numbers){
+            this.numbers.thisDiv.remove();
+        }
+        setTimeout(() => this.removal(), 500);
+    }
+    public removal(){
         this._div.remove();
-        this._div.removeEventListener("click", (e:MouseEvent) => this.onClick(e));
     }
     public move():void {
         this.x += this.speed * this.xSpeed;

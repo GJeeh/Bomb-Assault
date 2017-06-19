@@ -105,7 +105,7 @@ class Game{
         var biemsound  = <HTMLAudioElement>document.getElementById("biem");
         var defuse  = <HTMLAudioElement>document.getElementById("defuse");
         for(var i = 0; i < this.bombs.length; i++){
-            if(this.bombs[i] !== undefined){
+            if(this.bombs[i] !== undefined && this.bombs[i].dead == false){
                 if(this.collisions.collision(this.player,this.bombs[i]) || this.bombs[i].HP == 0){
                     if(this.bombs[i].HP !== 0 && this.score.score < 40 && this.score.lives > 0){
                         this.score.updateScore(1,1,0);
@@ -117,11 +117,16 @@ class Game{
                         defuse.pause();
                         defuse.currentTime = 0.7;
                         defuse.play();
-                    }
+                    }                    
+                    this.bombs[i].dead = true;
                     this.bombs[i].removeMe();
-                    this.bombs[i] = undefined;
+                    setTimeout(() => this.undefine(this.bombs[i]),500);
                 }
+                
             }
         }
     }
+    public undefine(bomb:Bomb):void{
+                    bomb = undefined;
+                }
 }

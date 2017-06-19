@@ -8,6 +8,7 @@ class Score{
     private noticediv:HTMLElement;
     private replaydiv:HTMLElement;
     private mainPlayer:HTMLElement;
+    private ended:boolean = false;
 
     private game:Game;
 
@@ -43,22 +44,26 @@ class Score{
         this.clicksdiv.innerHTML = "Clicks left: " + this.clicks;
     }
     private checkGameStatus(){
-        if(this.score >= 40){
-            document.body.appendChild(this.noticediv);
-            document.body.appendChild(this.replaydiv);
-            this.noticediv.style.width = "300px";
-            this.noticediv.innerHTML = "You Win!";
-            this.replaydiv.innerHTML = "Restart"
-            this.Endscreen();
-        }
-        else if(this.lives <= 0){
-            document.body.appendChild(this.replaydiv);
-            document.body.appendChild(this.noticediv);
-            this.noticediv.style.width = "400px"; 
-            this.noticediv.innerHTML = "GAME OVER"
-            this.replaydiv.innerHTML = "Restart"
-            this.mainPlayer.style.backgroundImage = "url(../docs/images/dead.png)";
-            this.Endscreen();
+        if(this.ended == false){
+            if(this.score >= 40){
+                document.body.appendChild(this.noticediv);
+                document.body.appendChild(this.replaydiv);
+                this.noticediv.style.width = "300px";
+                this.noticediv.innerHTML = "You Win!";
+                this.replaydiv.innerHTML = "Restart"
+                this.ended = true;
+                this.Endscreen();
+            }
+            else if(this.lives <= 0){
+                document.body.appendChild(this.replaydiv);
+                document.body.appendChild(this.noticediv);
+                this.noticediv.style.width = "400px"; 
+                this.noticediv.innerHTML = "GAME OVER"
+                this.replaydiv.innerHTML = "Restart"
+                this.mainPlayer.style.backgroundImage = "url(../docs/images/dead.png)";
+                this.ended = true;
+                this.Endscreen();
+            }
         }
     }
     private Endscreen(){
