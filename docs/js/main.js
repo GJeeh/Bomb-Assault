@@ -27,10 +27,14 @@ var Bomb = (function () {
         this._div.addEventListener("click", function (e) { return _this.onClick(e); });
         this._div.style.backgroundColor = color;
     }
-    Object.defineProperty(Bomb.prototype, "display", {
+    Object.defineProperty(Bomb.prototype, "publics", {
         get: function () {
             return this.score;
         },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Bomb.prototype, "display", {
         set: function (value) {
             this.score = value;
         },
@@ -43,7 +47,9 @@ var Bomb = (function () {
         }
     };
     Bomb.prototype.removeMe = function () {
+        var _this = this;
         this._div.remove();
+        this._div.removeEventListener("click", function (e) { return _this.onClick(e); });
     };
     Bomb.prototype.move = function () {
         this.x += this.speed * this.xSpeed;
@@ -116,13 +122,72 @@ var Collisions = (function () {
     function Collisions() {
     }
     Collisions.prototype.collision = function (c1, c2) {
-        return !(c2.x > c1.x + c2.width / 2 || c2.x + c2.width < c1.x - c2.width / 2 || c2.y > c1.y + c2.height / 2 || c2.y + c2.height < c1.y - c2.height / 2);
+        return !(c2.x - c2.width > c1.x + c2.width / 2 || c2.x + c2.width < c1.x - c2.width / 2 || c2.y - c2.height > c1.y + c2.height / 2 || c2.y + c2.height < c1.y - c2.height / 2);
     };
     return Collisions;
 }());
+var Score = (function () {
+    function Score() {
+        var _this = this;
+        this.clicksdiv = document.getElementsByTagName("clicks")[0];
+        this.scorediv = document.getElementsByTagName("score")[0];
+        this.livesdiv = document.getElementsByTagName("lives")[0];
+        this.noticediv = document.createElement("notice");
+        this.replaydiv = document.createElement("notice");
+        this.mainPlayer = document.getElementsByTagName("player")[0];
+        this.clicks = 3;
+        this.lives = 5;
+        this.score = 0;
+        this.replaydiv.addEventListener("click", function (e) { return _this.onClick(e); });
+        this.replaydiv.style.marginTop = "200px";
+        this.replaydiv.style.width = "300px";
+        console.log(this.mainPlayer);
+    }
+    Score.prototype.onClick = function (e) {
+        window.location.reload();
+    };
+    Score.prototype.updateScore = function (lv, cl, sc) {
+        this.lives -= lv;
+        this.clicks += cl;
+        this.score += sc;
+        this.display();
+        this.checkGameStatus();
+    };
+    Score.prototype.display = function () {
+        this.scorediv.innerHTML = "Score: " + this.score + "/40";
+        this.livesdiv.innerHTML = "Lives: " + this.lives;
+        this.clicksdiv.innerHTML = "Clicks left: " + this.clicks;
+    };
+    Score.prototype.checkGameStatus = function () {
+        if (this.score >= 40) {
+            document.body.appendChild(this.noticediv);
+            document.body.appendChild(this.replaydiv);
+            this.noticediv.style.width = "300px";
+            this.noticediv.innerHTML = "You Win!";
+            this.replaydiv.innerHTML = "Restart";
+            this.Endscreen();
+        }
+        else if (this.lives <= 0) {
+            document.body.appendChild(this.replaydiv);
+            document.body.appendChild(this.noticediv);
+            this.noticediv.style.width = "400px";
+            this.noticediv.innerHTML = "GAME OVER";
+            this.replaydiv.innerHTML = "Restart";
+            this.mainPlayer.style.backgroundImage = "url(../docs/images/dead.png)";
+            this.Endscreen();
+        }
+    };
+    Score.prototype.Endscreen = function () {
+        TweenLite.set(this.noticediv, { x: 0, y: -230 });
+        TweenLite.to(this.noticediv, 5, { y: 10, ease: Elastic.easeOut });
+        TweenLite.set(this.replaydiv, { x: 0, y: -230 });
+        TweenLite.to(this.replaydiv, 5, { y: 20, ease: Elastic.easeOut });
+    };
+    return Score;
+}());
 var Player = (function () {
     function Player(x, y) {
-        this.div = document.createElement("player");
+        this.div = document.getElementsByTagName("player")[0];
         document.body.appendChild(this.div);
         this.x = x;
         this.y = y;
@@ -134,6 +199,9 @@ var Player = (function () {
 var Game = (function () {
     function Game() {
         var _this = this;
+        this.soundtrack = document.getElementById("soundtrack");
+        this.soundtrack.play();
+        this.soundtrack.volume = 0.5;
         this.startUI = document.getElementsByTagName("notice")[0];
         this.collisions = new Collisions();
         this.score = new Score();
@@ -142,6 +210,7 @@ var Game = (function () {
         if (this.startUI.innerHTML = "Play") {
             this.startUI.addEventListener("click", function (e) { return _this.onClick(e); });
         }
+        requestAnimationFrame(function () { return _this.SoundtrackLoop(); });
     }
     Object.defineProperty(Game.prototype, "display", {
         get: function () {
@@ -158,6 +227,13 @@ var Game = (function () {
         this.startUI.remove();
         requestAnimationFrame(function () { return _this.gameloop(); });
         setTimeout(function () { return _this.bombGeneration(); }, 1000);
+    };
+    Game.prototype.SoundtrackLoop = function () {
+        var _this = this;
+        if (this.soundtrack.currentTime >= 27) {
+            this.soundtrack.currentTime = 0;
+        }
+        requestAnimationFrame(function () { return _this.SoundtrackLoop(); });
     };
     Game.prototype.gameloop = function () {
         var _this = this;
@@ -260,61 +336,5 @@ var Numbers = (function () {
         this.div.innerHTML = HP + "";
     };
     return Numbers;
-}());
-var Score = (function () {
-    function Score() {
-        var _this = this;
-        this.clicksdiv = document.getElementsByTagName("clicks")[0];
-        this.scorediv = document.getElementsByTagName("score")[0];
-        this.livesdiv = document.getElementsByTagName("lives")[0];
-        this.noticediv = document.createElement("notice");
-        this.replaydiv = document.createElement("notice");
-        this.clicks = 3;
-        this.lives = 5;
-        this.score = 0;
-        this.replaydiv.addEventListener("click", function (e) { return _this.onClick(e); });
-        this.replaydiv.style.marginTop = "200px";
-        this.replaydiv.style.width = "200px";
-    }
-    Score.prototype.onClick = function (e) {
-        window.location.reload();
-    };
-    Score.prototype.updateScore = function (lv, cl, sc) {
-        this.lives -= lv;
-        this.clicks += cl;
-        this.score += sc;
-        this.display();
-        this.checkGameStatus();
-    };
-    Score.prototype.display = function () {
-        this.scorediv.innerHTML = "Score: " + this.score + "/40";
-        this.livesdiv.innerHTML = "Lives: " + this.lives;
-        this.clicksdiv.innerHTML = "Clicks left: " + this.clicks;
-    };
-    Score.prototype.checkGameStatus = function () {
-        if (this.score >= 40) {
-            document.body.appendChild(this.noticediv);
-            document.body.appendChild(this.replaydiv);
-            this.noticediv.style.width = "300px";
-            this.noticediv.innerHTML = "You Win!";
-            this.replaydiv.innerHTML = "Restart";
-            this.Endscreen();
-        }
-        else if (this.lives <= 0) {
-            document.body.appendChild(this.replaydiv);
-            document.body.appendChild(this.noticediv);
-            this.noticediv.style.width = "400px";
-            this.noticediv.innerHTML = "GAME OVER";
-            this.replaydiv.innerHTML = "Restart";
-            this.Endscreen();
-        }
-    };
-    Score.prototype.Endscreen = function () {
-        TweenLite.set(this.noticediv, { x: 0, y: -230 });
-        TweenLite.to(this.noticediv, 5, { y: 10, ease: Elastic.easeOut });
-        TweenLite.set(this.replaydiv, { x: 0, y: -230 });
-        TweenLite.to(this.replaydiv, 5, { y: 20, ease: Elastic.easeOut });
-    };
-    return Score;
 }());
 //# sourceMappingURL=main.js.map

@@ -7,6 +7,8 @@ class Score{
     private clicksdiv:Element;
     private noticediv:HTMLElement;
     private replaydiv:HTMLElement;
+    private mainPlayer:HTMLElement;
+
     private game:Game;
 
     constructor(){
@@ -15,13 +17,15 @@ class Score{
         this.livesdiv = document.getElementsByTagName("lives")[0];
         this.noticediv = document.createElement("notice");
         this.replaydiv = document.createElement("notice");
+        this.mainPlayer = <HTMLElement>document.getElementsByTagName("player")[0];
         this.clicks = 3;
         this.lives = 5;
         this.score = 0;
         this.replaydiv.addEventListener("click", (e:MouseEvent) => this.onClick(e));
         this.replaydiv.style.marginTop = "200px";
-        this.replaydiv.style.width = "200px";
-        
+        this.replaydiv.style.width = "300px";
+                    console.log(this.mainPlayer);
+
     }
     private onClick(e:MouseEvent):void{
         window.location.reload();   
@@ -53,10 +57,11 @@ class Score{
             this.noticediv.style.width = "400px"; 
             this.noticediv.innerHTML = "GAME OVER"
             this.replaydiv.innerHTML = "Restart"
+            this.mainPlayer.style.backgroundImage = "url(../docs/images/dead.png)";
             this.Endscreen();
         }
     }
-    public Endscreen(){
+    private Endscreen(){
         TweenLite.set(this.noticediv, {x:0, y:-230});
         TweenLite.to(this.noticediv, 5, {y:10, ease:Elastic.easeOut});
         TweenLite.set(this.replaydiv, {x:0, y:-230});

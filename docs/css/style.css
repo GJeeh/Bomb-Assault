@@ -1,4 +1,5 @@
 html, body{
+    font-family: "Press Start 2P";
     background-color: white;
     overflow: hidden;
     margin: 0;
@@ -10,6 +11,14 @@ html, body{
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+    background-image: url("../images/background.jpg");    
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: calc(50% + 3vw) calc(40% + 5vh);
+; 
+
+    height: 100%;
+   
 }
 body * {
     position: absolute;
@@ -19,9 +28,10 @@ body * {
     background-repeat: no-repeat;
 }
 player{
-    background-color: green;
-    width: 4vh;
-    height: 4vh;
+    width: 8vh;
+    height: 8vh;
+    background-image: url("../images/smiley.png");
+    background-size: contain;
 }
 bomb{
     width: 50px;
@@ -31,7 +41,7 @@ bomb{
     border-radius: 50%;
 }
 lives {
-    font-size:42px;
+    font-size:2vw;
     text-shadow: 1px 1px 0px black;
     color:red;
     padding:20px;
@@ -39,7 +49,7 @@ lives {
     text-align: left;
 }
 clicks {
-    font-size:42px;
+    font-size:2vw;
     text-shadow: 1px 1px 0px black;
     color:red;
     padding:20px;
@@ -47,7 +57,7 @@ clicks {
     text-align: center;
 }
 score {
-    font-size:42px;
+    font-size:2vw;
     text-shadow: 1px 1px 0px black;
     color:green;
     padding:20px;
@@ -55,7 +65,7 @@ score {
     text-align: right;
 }
 notice {
-    font-size:60px;
+    font-size:40px;
     text-shadow: 1px 1px 0px black;
     color:red;
     padding: 10px;
@@ -65,21 +75,21 @@ notice {
     text-align: center;
     border: 5px solid grey;
     border-radius: 20px;
-    width: 150px;
+    width: 200px;
 }
 numbers{
-    font-size:30px;
+    font-size:15px;
     text-shadow: 1px 1px 0px black;
     color:white;
     padding:20px;
     width:100%;
     text-align: center;
-    z-index: 100;
+    z-index: 10;
 }
 desc{
-    font-size:22px;
+    font-size:1vw;
     text-shadow: 1px 1px 0px black;
-    color:black;
+    color:white;
     padding:20px;
     width:100%;
    bottom: 10px; 

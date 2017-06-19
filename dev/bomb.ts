@@ -49,6 +49,7 @@ class Bomb {
     }
     public removeMe(){
         this._div.remove();
+        this._div.removeEventListener("click", (e:MouseEvent) => this.onClick(e));
     }
     public move():void {
         this.x += this.speed * this.xSpeed;

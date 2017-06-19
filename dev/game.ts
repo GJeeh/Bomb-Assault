@@ -10,14 +10,18 @@ class Game{
     private collisions:Collisions;
     private score:Score;    
     private startUI: Element;
+    private soundtrack: HTMLAudioElement;
     public get display(): Score {
 		return this.score;
 	}
 	public set display(value: Score) {
 		this.score = value;
 	}
-    
+
     constructor(){
+        this.soundtrack  = <HTMLAudioElement>document.getElementById("soundtrack");
+        this.soundtrack.play();
+        this.soundtrack.volume = 0.5;
         this.startUI = document.getElementsByTagName("notice")[0]; 
         this.collisions = new Collisions();
         this.score = new Score();
@@ -26,11 +30,18 @@ class Game{
         if(this.startUI.innerHTML = "Play"){
             this.startUI.addEventListener("click", (e:MouseEvent) => this.onClick(e));
         }
+        requestAnimationFrame(() => this.SoundtrackLoop());
     }
     private onClick(e:MouseEvent):void{
         this.startUI.remove();
         requestAnimationFrame(() => this.gameloop());
         setTimeout(() => this.bombGeneration(), 1000);
+    }
+    private SoundtrackLoop(){
+        if(this.soundtrack.currentTime >= 27){    
+            this.soundtrack.currentTime = 0;
+        }
+        requestAnimationFrame(() => this.SoundtrackLoop());
     }
     private gameloop(){
         this.destroy();
