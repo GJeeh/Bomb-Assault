@@ -186,7 +186,7 @@ var Score = (function () {
                 this.noticediv.style.width = "400px";
                 this.noticediv.innerHTML = "GAME OVER";
                 this.replaydiv.innerHTML = "Restart";
-                this.mainPlayer.style.backgroundImage = "url(../docs/images/dead.png)";
+                this.mainPlayer.style.backgroundImage = "url(../images/dead.png)";
                 this.ended = true;
                 this.Endscreen();
             }
