@@ -51,7 +51,6 @@ var Bomb = (function () {
     Bomb.prototype.removeMe = function () {
         var _this = this;
         this._div.removeEventListener("click", this.mouseE);
-        this._div.style.backgroundImage = "url(images/explode2.gif)";
         this._div.style.backgroundColor = "";
         if (this.numbers) {
             this.numbers.thisDiv.remove();
@@ -323,14 +322,16 @@ var Game = (function () {
                         biemsound.pause();
                         biemsound.currentTime = 0.7;
                         biemsound.play();
+                        this.bombs[i]._div.style.backgroundImage = "url(images/explode2.gif)";
+                        this.bombs[i].removeMe();
                     }
                     else {
                         defuse.pause();
                         defuse.currentTime = 0.7;
                         defuse.play();
+                        this.bombs[i].removal();
                     }
                     this.bombs[i].dead = true;
-                    this.bombs[i].removeMe();
                     setTimeout(function () { return _this.undefine(_this.bombs[i]); }, 500);
                 }
             }

@@ -112,14 +112,16 @@ class Game{
                         biemsound.pause();
                         biemsound.currentTime = 0.7;
                         biemsound.play();
+                        this.bombs[i]._div.style.backgroundImage = "url(images/explode2.gif)";
+                        this.bombs[i].removeMe();
                     }
                     else{
                         defuse.pause();
                         defuse.currentTime = 0.7;
                         defuse.play();
+                        this.bombs[i].removal();
                     }                    
                     this.bombs[i].dead = true;
-                    this.bombs[i].removeMe();
                     setTimeout(() => this.undefine(this.bombs[i]),500);
                 }
                 
