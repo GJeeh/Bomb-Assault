@@ -14,7 +14,7 @@ html, body{
     background-image: url("../images/background.jpg");    
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: calc(50% + 3vw) calc(40% + 5vh);
+    background-position: center;
 ; 
 
     height: 100%;
