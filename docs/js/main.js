@@ -51,7 +51,7 @@ var Bomb = (function () {
     Bomb.prototype.removeMe = function () {
         var _this = this;
         this._div.removeEventListener("click", this.mouseE);
-        this._div.style.backgroundImage = "url(/images/explode2.gif)";
+        this._div.style.backgroundImage = "url(images/explode2.gif)";
         this._div.style.backgroundColor = "";
         if (this.numbers) {
             this.numbers.thisDiv.remove();
@@ -186,7 +186,7 @@ var Score = (function () {
                 this.noticediv.style.width = "400px";
                 this.noticediv.innerHTML = "GAME OVER";
                 this.replaydiv.innerHTML = "Restart";
-                this.mainPlayer.style.backgroundImage = "url(/images/dead.png)";
+                this.mainPlayer.style.backgroundImage = "url(images/dead.png)";
                 this.ended = true;
                 this.Endscreen();
             }
