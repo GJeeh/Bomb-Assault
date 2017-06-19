@@ -13,7 +13,7 @@ html, body{
                                   supported by Chrome and Opera */
     background-image: url("../images/background.jpg");    
     background-repeat: no-repeat;
-    background-size: 120vw;
+    background-size: cover 120%;
     background-position-x: center;
     background-position-y: calc(40% + 5vh);
 ; 
