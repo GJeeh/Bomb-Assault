@@ -287,7 +287,7 @@ var Score = (function () {
         this.checkGameStatus();
     };
     Score.prototype.display = function () {
-        this.scorediv.innerHTML = "Score: " + this.score;
+        this.scorediv.innerHTML = "Score: " + this.score + "/40";
         this.livesdiv.innerHTML = "Lives: " + this.lives;
         this.clicksdiv.innerHTML = "Clicks left: " + this.clicks;
     };

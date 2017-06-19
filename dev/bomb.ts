@@ -5,7 +5,8 @@ class Bomb {
     public y:number;
     public width:number;
     public height:number;
-    public speed:number;
+    private speed:number;
+
     private ySpeed:number;
     private xSpeed:number;
     public HP:number;
@@ -16,12 +17,14 @@ class Bomb {
     private numbers:Numbers;
 
     private rotation:number;
-    public get display(): Score {
+    public get publics(): Score {
 		return this.score;
 	}
 	public set display(value: Score) {
 		this.score = value;
 	}
+    
+
     constructor(x:number, y:number, HP:number, color:string, g:Game) {
         this._div = document.createElement("bomb");
         this.game = g;

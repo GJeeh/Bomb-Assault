@@ -8,7 +8,7 @@ class Game{
     private rand:number;
     private rand2:number;
     private collisions:Collisions;
-    private score:Score;
+    private score:Score;    
     private startUI: Element;
     public get display(): Score {
 		return this.score;
@@ -16,6 +16,7 @@ class Game{
 	public set display(value: Score) {
 		this.score = value;
 	}
+    
     constructor(){
         this.startUI = document.getElementsByTagName("notice")[0]; 
         this.collisions = new Collisions();
