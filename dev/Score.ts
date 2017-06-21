@@ -1,7 +1,7 @@
 class Score{
-    public score:number;
-    public lives:number;
-    public clicks:number;
+    private score:number;
+    private lives:number;
+    private clicks:number;
     private scorediv:Element;
     private livesdiv:Element;
     private clicksdiv:Element;
@@ -9,9 +9,25 @@ class Score{
     private replaydiv:HTMLElement;
     private mainPlayer:HTMLElement;
     private ended:boolean = false;
-
     private game:Game;
-
+    public get Score(): number {
+		return this.score;
+	}
+	public set Score(value: number) {
+		this.score = value;
+	}
+    public get Clicks(): number {
+		return this.clicks;
+	}
+	public set Clicks(value: number) {
+		this.clicks = value;
+	}
+    public get Lives(): number {
+		return this.lives;
+	}
+	public set Lives(value: number) {
+		this.clicks = value;
+	}
     constructor(){
         this.clicksdiv = document.getElementsByTagName("clicks")[0];
         this.scorediv = document.getElementsByTagName("score")[0];

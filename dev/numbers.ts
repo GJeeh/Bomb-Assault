@@ -11,7 +11,7 @@ class Numbers{
     constructor(bomb:Bomb, game:Game, HP:number){
         this.HP = HP;
         this.div = document.createElement("numbers");
-        bomb._div.appendChild(this.div);
+        bomb.DIV.appendChild(this.div);
         this.g = game;
         this.div.innerHTML = this.HP + "";
     }

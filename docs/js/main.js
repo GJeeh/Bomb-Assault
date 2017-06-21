@@ -14,8 +14,8 @@ var Bomb = (function () {
         this.dead = false;
         this._div = document.createElement("bomb");
         this.game = g;
+        this.score = this.game.display;
         document.body.appendChild(this._div);
-        this.score = new Score();
         this.speed = 0.002;
         this.width = 30;
         this.height = 30;
@@ -29,25 +29,76 @@ var Bomb = (function () {
         this._div.addEventListener("click", this.mouseE);
         this._div.style.backgroundColor = color;
     }
-    Object.defineProperty(Bomb.prototype, "publics", {
+    Object.defineProperty(Bomb.prototype, "Dead", {
         get: function () {
-            return this.score;
+            return this.dead;
         },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Bomb.prototype, "display", {
         set: function (value) {
-            this.score = value;
+            this.dead = value;
         },
         enumerable: true,
         configurable: true
     });
-    Bomb.prototype.addNumbers = function () {
-        if (!this.numbers) {
-            this.numbers = new Numbers(this, this.game, this.HP);
-        }
-    };
+    Object.defineProperty(Bomb.prototype, "DIV", {
+        get: function () {
+            return this._div;
+        },
+        set: function (value) {
+            this._div = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Bomb.prototype, "X", {
+        get: function () {
+            return this.x;
+        },
+        set: function (value) {
+            this.x = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Bomb.prototype, "Y", {
+        get: function () {
+            return this.y;
+        },
+        set: function (value) {
+            this.y = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Bomb.prototype, "Width", {
+        get: function () {
+            return this.width;
+        },
+        set: function (value) {
+            this.width = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Bomb.prototype, "Height", {
+        get: function () {
+            return this.height;
+        },
+        set: function (value) {
+            this.height = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Bomb.prototype, "Health", {
+        get: function () {
+            return this.HP;
+        },
+        set: function (value) {
+            this.HP = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Bomb.prototype.removeMe = function () {
         var _this = this;
         this._div.removeEventListener("click", this.mouseE);
@@ -71,25 +122,25 @@ var Bomb = (function () {
         this._div.style.transform += "rotate(" + this.rotation + "deg)";
     };
     Bomb.prototype.onClick = function (e) {
-        if (this.game.display.clicks > 0) {
+        if (this.score.Clicks > 0) {
             this.HP -= 1;
-            this.game.display.updateScore(0, -1, 0);
+            this.score.updateScore(0, -1, 0);
             if (this.HP == 1) {
                 this._div.style.backgroundColor = "green";
             }
             else if (this.HP == 2) {
                 this._div.style.backgroundColor = "red";
             }
-            if (this.HP == 0 && this.game.display.lives > 0 && this.game.display.score < 40) {
-                this.game.display.updateScore(0, 1, 1);
-                if (this.game.display.score == 5) {
-                    this.game.display.updateScore(-2, 7, 0);
+            if (this.HP == 0 && this.score.Lives > 0 && this.score.Score < 40) {
+                this.score.updateScore(0, 1, 1);
+                if (this.score.Score == 5) {
+                    this.score.updateScore(-2, 7, 0);
                 }
-                else if (this.game.display.score == 10) {
-                    this.game.display.updateScore(-2, 6, 0);
+                else if (this.score.Score == 10) {
+                    this.score.updateScore(-2, 6, 0);
                 }
-                else if (this.game.display.score == 20) {
-                    this.game.display.updateScore(-6, 6, 0);
+                else if (this.score.Score == 20) {
+                    this.score.updateScore(-6, 6, 0);
                 }
             }
             if (!this.numbers) {
@@ -104,34 +155,18 @@ var Bomb = (function () {
     };
     return Bomb;
 }());
-var BigBomb = (function (_super) {
-    __extends(BigBomb, _super);
-    function BigBomb(x, y, g) {
+var bigBomb = (function (_super) {
+    __extends(bigBomb, _super);
+    function bigBomb(x, y, g) {
         return _super.call(this, x, y, 3, "purple", g) || this;
     }
-    return BigBomb;
-}(Bomb));
-var StandardBomb = (function (_super) {
-    __extends(StandardBomb, _super);
-    function StandardBomb(x, y, g) {
-        var _this = _super.call(this, x, y, 2, "", g) || this;
-        _super.prototype.addNumbers.call(_this);
-        return _this;
-    }
-    return StandardBomb;
-}(Bomb));
-var SmallBomb = (function (_super) {
-    __extends(SmallBomb, _super);
-    function SmallBomb(x, y, g) {
-        return _super.call(this, x, y, 1, "purple", g) || this;
-    }
-    return SmallBomb;
+    return bigBomb;
 }(Bomb));
 var Collisions = (function () {
     function Collisions() {
     }
     Collisions.prototype.collision = function (c1, c2) {
-        return !(c2.x - c2.width > c1.x + c2.width / 2 || c2.x + c2.width < c1.x - c2.width / 2 || c2.y - c2.height > c1.y + c2.height / 2 || c2.y + c2.height < c1.y - c2.height / 2);
+        return !(c2.X - c2.Width > c1.Xval + c2.Width / 2 || c2.X + c2.Width < c1.Xval - c2.Width / 2 || c2.Y - c2.Height > c1.Yval + c2.Height / 2 || c2.Y + c2.Height < c1.Yval - c2.Height / 2);
     };
     return Collisions;
 }());
@@ -153,6 +188,36 @@ var Score = (function () {
         this.replaydiv.style.width = "300px";
         console.log(this.mainPlayer);
     }
+    Object.defineProperty(Score.prototype, "Score", {
+        get: function () {
+            return this.score;
+        },
+        set: function (value) {
+            this.score = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Score.prototype, "Clicks", {
+        get: function () {
+            return this.clicks;
+        },
+        set: function (value) {
+            this.clicks = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Score.prototype, "Lives", {
+        get: function () {
+            return this.lives;
+        },
+        set: function (value) {
+            this.clicks = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Score.prototype.onClick = function (e) {
         window.location.reload();
     };
@@ -208,6 +273,26 @@ var Player = (function () {
         this.div.style.left = x + "px";
         this.div.style.top = y + "px";
     }
+    Object.defineProperty(Player.prototype, "Xval", {
+        get: function () {
+            return this.x;
+        },
+        set: function (value) {
+            this.x = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Player.prototype, "Yval", {
+        get: function () {
+            return this.y;
+        },
+        set: function (value) {
+            this.y = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Player;
 }());
 var Game = (function () {
@@ -262,7 +347,7 @@ var Game = (function () {
     };
     Game.prototype.bombGeneration = function () {
         var _this = this;
-        if (this.score.lives > 0 && this.score.score < 40) {
+        if (this.score.Lives > 0 && this.score.Score < 40) {
             this.rand = Math.random();
             this.rand2 = Math.random();
             if (this.rand2 < 0.33) {
@@ -281,16 +366,16 @@ var Game = (function () {
             }
             else if (this.rand2 > 0.33 && this.rand2 < 0.67) {
                 if (this.rand < 0.25) {
-                    this.bombs.push(new BigBomb(0, Math.random() * innerHeight, this));
+                    this.bombs.push(new bigBomb(0, Math.random() * innerHeight, this));
                 }
                 else if (this.rand < 0.5 && this.rand >= 0.25) {
-                    this.bombs.push(new BigBomb(Math.random() * innerWidth, 0, this));
+                    this.bombs.push(new bigBomb(Math.random() * innerWidth, 0, this));
                 }
                 else if (this.rand < 0.75 && this.rand >= 0.5) {
-                    this.bombs.push(new BigBomb(innerWidth, Math.random() * innerHeight, this));
+                    this.bombs.push(new bigBomb(innerWidth, Math.random() * innerHeight, this));
                 }
                 else {
-                    this.bombs.push(new BigBomb(Math.random() * innerWidth, innerHeight, this));
+                    this.bombs.push(new bigBomb(Math.random() * innerWidth, innerHeight, this));
                 }
             }
             else {
@@ -315,14 +400,14 @@ var Game = (function () {
         var biemsound = document.getElementById("biem");
         var defuse = document.getElementById("defuse");
         for (var i = 0; i < this.bombs.length; i++) {
-            if (this.bombs[i] !== undefined && this.bombs[i].dead == false) {
-                if (this.collisions.collision(this.player, this.bombs[i]) || this.bombs[i].HP == 0) {
-                    if (this.bombs[i].HP !== 0 && this.score.score < 40 && this.score.lives > 0) {
+            if (this.bombs[i] !== undefined && this.bombs[i].Dead == false) {
+                if (this.collisions.collision(this.player, this.bombs[i]) || this.bombs[i].Health == 0) {
+                    if (this.bombs[i].Health !== 0 && this.score.Score < 40 && this.score.Lives > 0) {
                         this.score.updateScore(1, 1, 0);
                         biemsound.pause();
                         biemsound.currentTime = 0.7;
                         biemsound.play();
-                        this.bombs[i]._div.style.backgroundImage = "url(images/explode2.gif)";
+                        this.bombs[i].DIV.style.backgroundImage = "url(images/explode2.gif)";
                         this.bombs[i].removeMe();
                     }
                     else {
@@ -331,7 +416,7 @@ var Game = (function () {
                         defuse.play();
                         this.bombs[i].removal();
                     }
-                    this.bombs[i].dead = true;
+                    this.bombs[i].Dead = true;
                     setTimeout(function () { return _this.undefine(_this.bombs[i]); }, 500);
                 }
             }
@@ -349,7 +434,7 @@ var Numbers = (function () {
     function Numbers(bomb, game, HP) {
         this.HP = HP;
         this.div = document.createElement("numbers");
-        bomb._div.appendChild(this.div);
+        bomb.DIV.appendChild(this.div);
         this.g = game;
         this.div.innerHTML = this.HP + "";
     }
@@ -368,4 +453,23 @@ var Numbers = (function () {
     };
     return Numbers;
 }());
+var SmallBomb = (function (_super) {
+    __extends(SmallBomb, _super);
+    function SmallBomb(x, y, g) {
+        return _super.call(this, x, y, 1, "purple", g) || this;
+    }
+    return SmallBomb;
+}(Bomb));
+var StandardBomb = (function (_super) {
+    __extends(StandardBomb, _super);
+    function StandardBomb(x, y, g) {
+        return _super.call(this, x, y, 2, "", g) || this;
+    }
+    StandardBomb.prototype.addNumbers = function () {
+        if (!this.numbers) {
+            this.numbers = new Numbers(this, this.game, this.Health);
+        }
+    };
+    return StandardBomb;
+}(Bomb));
 //# sourceMappingURL=main.js.map

@@ -2,8 +2,20 @@
 
 class Player{
     private div: HTMLElement;
-    public x:number;
-    public y:number;
+    private x:number;
+    private y:number;
+    public get Xval():number{
+        return this.x;
+    }
+    public set Xval(value:number){
+        this.x = value;
+    }
+    public get Yval():number{
+        return this.y;
+    }
+    public set Yval(value:number){
+        this.y = value;
+    }
 
     constructor(x:number, y:number){
         this.div = <HTMLElement>document.getElementsByTagName("player")[0];
