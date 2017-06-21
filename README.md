@@ -7,3 +7,5 @@
  -Losing a life grants you a bonus click. So you'll need to sacrifice some lives in order to keep going.<br>
  -Defusing a bomb grants you a bonus click.<br>
  -Reaching certain scores grant you extra lives and clicks.<br>
+UML:<br>
+<img src="/docs/images/uml.png">
