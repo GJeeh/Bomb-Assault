@@ -76,6 +76,7 @@ class Bomb {
         this.mouseE = (e:MouseEvent) => this.onClick(e);
         this._div.addEventListener("click", this.mouseE);
         this._div.style.backgroundColor = color;
+      
 }   
     public removeMe(){
         this._div.removeEventListener("click", this.mouseE);
@@ -121,7 +122,7 @@ class Bomb {
                 }
             }
             if(!this.numbers){
-                this.numbers = new Numbers(this,this.game,this.HP);
+                this.numbers = new Numbers(this,this.game,String(this.HP));
             }
             else{
                 this.numbers.updateNumbers(this.HP);
@@ -136,5 +137,8 @@ class Bomb {
 class bigBomb extends Bomb{
     constructor(x:number,y:number, g:Game){
         super(x,y,3, "purple", g);
+            if(!this.numbers){
+            this.numbers = new Numbers(this,this.game,"?");
+        }
     }
 }

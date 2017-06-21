@@ -126,6 +126,6 @@ class Game{
         }
     }
     public undefine(bomb:Bomb):void{
-                    bomb = undefined;
-                }
+                bomb = undefined;
+            }
 }

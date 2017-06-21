@@ -144,7 +144,7 @@ var Bomb = (function () {
                 }
             }
             if (!this.numbers) {
-                this.numbers = new Numbers(this, this.game, this.HP);
+                this.numbers = new Numbers(this, this.game, String(this.HP));
             }
             else {
                 this.numbers.updateNumbers(this.HP);
@@ -158,7 +158,11 @@ var Bomb = (function () {
 var bigBomb = (function (_super) {
     __extends(bigBomb, _super);
     function bigBomb(x, y, g) {
-        return _super.call(this, x, y, 3, "purple", g) || this;
+        var _this = _super.call(this, x, y, 3, "purple", g) || this;
+        if (!_this.numbers) {
+            _this.numbers = new Numbers(_this, _this.game, "?");
+        }
+        return _this;
     }
     return bigBomb;
 }(Bomb));
@@ -456,20 +460,23 @@ var Numbers = (function () {
 var SmallBomb = (function (_super) {
     __extends(SmallBomb, _super);
     function SmallBomb(x, y, g) {
-        return _super.call(this, x, y, 1, "purple", g) || this;
+        var _this = _super.call(this, x, y, 1, "purple", g) || this;
+        if (!_this.numbers) {
+            _this.numbers = new Numbers(_this, _this.game, "?");
+        }
+        return _this;
     }
     return SmallBomb;
 }(Bomb));
 var StandardBomb = (function (_super) {
     __extends(StandardBomb, _super);
     function StandardBomb(x, y, g) {
-        return _super.call(this, x, y, 2, "", g) || this;
-    }
-    StandardBomb.prototype.addNumbers = function () {
-        if (!this.numbers) {
-            this.numbers = new Numbers(this, this.game, this.Health);
+        var _this = _super.call(this, x, y, 2, "", g) || this;
+        if (!_this.numbers) {
+            _this.numbers = new Numbers(_this, _this.game, String(_this.Health));
         }
-    };
+        return _this;
+    }
     return StandardBomb;
 }(Bomb));
 //# sourceMappingURL=main.js.map

@@ -1,5 +1,5 @@
 class Numbers{
-    private HP:number;
+    private HP:string;
     private div:Element;
     private g:Game;
     public get thisDiv(): Element {
@@ -8,7 +8,7 @@ class Numbers{
 	public set thisDiv(value: Element) {
 		this.div = value;
 	}
-    constructor(bomb:Bomb, game:Game, HP:number){
+    constructor(bomb:Bomb, game:Game, HP:string){
         this.HP = HP;
         this.div = document.createElement("numbers");
         bomb.DIV.appendChild(this.div);
