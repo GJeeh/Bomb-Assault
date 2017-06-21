@@ -8,4 +8,4 @@
  -Defusing a bomb grants you a bonus click.<br>
  -Reaching certain scores grant you extra lives and clicks.<br>
 UML:<br>
-<img src="/docs/images/uml.png">
+<img src="/docs/images/UML.png">
