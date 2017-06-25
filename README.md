@@ -7,6 +7,11 @@
  -Losing a life grants you a bonus click. So you'll need to sacrifice some lives in order to keep going.<br>
  -Defusing a bomb grants you a bonus click.<br>
  -Reaching certain scores grant you extra lives and clicks.<br>
+ 
+ **Installation:**
+ 1. Clone or download the git onto your computer.
+ 2. Open the "index.html" file in the docs folder to play the game.
+ 
 UML:<br>
 <img src="/docs/images/UML.png">
 
